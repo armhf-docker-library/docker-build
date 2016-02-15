@@ -30,6 +30,15 @@ cache:
     - /drone/docker
 
 notify:
+  downstream:
+    repositories:
+      - armhf-docker-library/docker
+    token: $$DRONE_API_TOKEN
+    fork: true
+    when:
+      event: push
+      success: true
+
   slack:
     webhook_url: $$SLACK_WEBHOOK_URL
     channel: armhf
