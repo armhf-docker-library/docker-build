@@ -1,6 +1,6 @@
 matrix:
   VERSION:
-    - "1.10.1"
+    - "1.12.1"
 
 build:
   clone:
@@ -18,12 +18,18 @@ build:
       - docker daemon -s overlay -g /drone/docker &
       - sleep 2
       - rm upstream -fR && git clone --single-branch --branch v$$VERSION https://github.com/docker/docker upstream
-      - cd upstream && make binary
+      - cd upstream
+      - make binary
+      - cd bundles/$$VERSION
+      - mkdir docker
+      - cp binary-client/docker docker/
+      - cd binary-daemon && cp docker-containerd docker-containerd-ctr docker-containerd-shim dockerd docker-proxy docker-runc ../docker/ && cd ..
+      - tar czf docker-$$VERSION.tgz docker
 
 publish:
   github_release:
     api_key: $$GITHUB_API_KEY
-    files: upstream/bundles/$$VERSION/binary/docker-$$VERSION*
+    files: upstream/bundles/$$VERSION/docker-$$VERSION.tgz*
 
 cache:
   mount:
