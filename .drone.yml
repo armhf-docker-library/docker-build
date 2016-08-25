@@ -8,7 +8,7 @@ build:
     commands:
 
   binary:
-    image: armhfbuild/docker:1.10-dind
+    image: armhfbuild/docker:1.12-dind
     privileged: true
     commands:
       - apk add --update bash git make
