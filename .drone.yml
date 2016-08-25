@@ -30,6 +30,7 @@ publish:
   github_release:
     api_key: $$GITHUB_API_KEY
     files: upstream/bundles/$$VERSION/docker-$$VERSION.tgz*
+    checksum: sha256
 
 cache:
   mount:
